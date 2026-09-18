@@ -1,1 +1,47 @@
-{}
+{
+  "electricity": {
+    "grid_default": 0.716,
+    "solar": 0.041,
+    "wind": 0.011,
+    "hydro": 0.024,
+    "nuclear": 0.012,
+    "coal": 0.995,
+    "natural_gas_power": 0.410,
+    "unit": "kgCO2e/kWh",
+    "source": "IPCC 2023 / IEA 2023"
+  },
+  "natural_gas": {
+    "combustion": 2.0,
+    "unit": "kgCO2e/m3",
+    "source": "EPA GHG Emission Factors Hub 2024"
+  },
+  "diesel": {
+    "combustion": 2.68,
+    "unit": "kgCO2e/liter",
+    "source": "DEFRA 2024"
+  },
+  "waste": {
+    "landfill": 0.58,
+    "incineration": 0.91,
+    "recycled": 0.021,
+    "unit": "kgCO2e/kg",
+    "source": "EPA 2024"
+  },
+  "water": {
+    "treatment_and_supply": 0.344,
+    "unit": "kgCO2e/m3",
+    "source": "Water UK 2023"
+  },
+  "transport": {
+    "truck_diesel": 0.14,
+    "van_diesel": 0.195,
+    "rail_freight": 0.028,
+    "unit": "kgCO2e/tonne-km",
+    "source": "DEFRA 2024"
+  },
+  "scope_mapping": {
+    "scope1": ["natural_gas", "diesel"],
+    "scope2": ["electricity"],
+    "scope3": ["waste", "water", "transport"]
+  }
+}       
