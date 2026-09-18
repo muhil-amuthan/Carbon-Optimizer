@@ -141,7 +141,7 @@ async def get_grid_history(
 @router.post("/mqtt/trigger")
 async def trigger_mqtt_command(
     device_id: str,
-    action: str = Query(..., regex="^(ON|OFF|SCHEDULE)$"),
+    action: str = Query(..., pattern="^(ON|OFF|SCHEDULE)$"),
 ):
     """Send a command to an ESP32 device via MQTT (simulated)."""
     return {

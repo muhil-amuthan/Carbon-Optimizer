@@ -3,7 +3,7 @@
 import json
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from datetime import datetime
+from datetime import datetime, timezone
 
 from app.database import get_db
 from app.config import settings
@@ -81,7 +81,7 @@ async def run_optimization(request: OptimizationRequest, db: Session = Depends(g
         roi_months=result["roi_months"],
         selected_actions=result["selected_actions"],
         timeline=result["timeline"],
-        created_at=datetime.utcnow(),
+        created_at=datetime.now(timezone.utc),
     )
 
 

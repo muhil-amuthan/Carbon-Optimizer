@@ -1,6 +1,6 @@
 """Schemas for data upload and retrieval."""
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Optional
 from datetime import date, datetime
 
@@ -22,8 +22,7 @@ class OperationalDataResponse(OperationalDataCreate):
     id: int
     created_at: datetime
 
-    class Config:
-        from_attributes = True
+    model_config = ConfigDict(from_attributes=True)
 
 
 class UploadResponse(BaseModel):

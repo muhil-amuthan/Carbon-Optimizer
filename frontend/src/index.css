@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-bg-base text-carbon-text font-sans;
+    background-color: #0a0f1a;
+    color: #f1f5f9;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0d1321;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-bg-card border border-carbon-border rounded-xl p-5 transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply bg-bg-hover border-carbon-border;
+  }
+
+  .kpi-card {
+    @apply card relative overflow-hidden cursor-default;
+  }
+
+  .btn-primary {
+    @apply bg-brand-green hover:bg-green-400 text-bg-base font-semibold px-4 py-2 rounded-lg transition-all duration-200 text-sm;
+  }
+
+  .btn-ghost {
+    @apply border border-carbon-border hover:border-brand-green text-carbon-secondary hover:text-carbon-text px-4 py-2 rounded-lg transition-all duration-200 text-sm;
+  }
+
+  .status-pill {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+
+  .input-field {
+    @apply bg-bg-secondary border border-carbon-border rounded-lg px-3 py-2 text-sm text-carbon-text placeholder-carbon-muted focus:outline-none focus:border-brand-green transition-colors w-full;
+  }
+
+  .select-field {
+    @apply bg-bg-secondary border border-carbon-border rounded-lg px-3 py-2 text-sm text-carbon-text focus:outline-none focus:border-brand-green transition-colors w-full cursor-pointer;
+  }
+
+  .section-title {
+    @apply text-base font-semibold text-carbon-text mb-4;
+  }
+
+  .label-xs {
+    @apply text-xs font-medium uppercase tracking-wider text-carbon-muted;
+  }
+
+  .value-mono {
+    @apply font-mono text-carbon-text;
+  }
+}
+
+/* Recharts custom dark theme */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: #1e293b;
+}
+
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #151d2e !important;
+  border: 1px solid #1e293b !important;
+  border-radius: 8px !important;
+}
+
+.recharts-legend-item-text {
+  color: #94a3b8 !important;
+}
+
+/* Live pulse animation */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.live-dot {
+  animation: live-pulse 2s ease-in-out infinite;
+}
+
+/* Number transition */
+@keyframes count-up {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.count-animate {
+  animation: count-up 0.4s ease-out;
+}
