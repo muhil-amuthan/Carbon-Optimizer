@@ -4,9 +4,11 @@ import os
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from typing import List
 
-_DEFAULT_DATA_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..", "..", "data")
-)
+_possible_data_dirs = [
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..", "data")),
+    os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data")),
+]
+_DEFAULT_DATA_DIR = next((d for d in _possible_data_dirs if os.path.exists(d)), _possible_data_dirs[0])
 _DEFAULT_DB_PATH = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "..", "carbon_optimizer.db")
 )
