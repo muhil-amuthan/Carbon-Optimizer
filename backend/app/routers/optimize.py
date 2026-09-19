@@ -111,7 +111,27 @@ async def get_available_actions(db: Session = Depends(get_db)):
     actions = db.query(ReductionAction).all()
     if not actions:
         actions = _load_actions_from_json(db, [])
-    return actions
+    result = []
+    for a in actions:
+        ce = round(a.reduction_pct / a.cost_usd, 6) if a.cost_usd and a.cost_usd > 0 else 0.0
+        result.append({
+            "id": a.id,
+            "action_id": a.action_id,
+            "name": a.name,
+            "category": a.category,
+            "scope": a.scope,
+            "reduction_pct": a.reduction_pct,
+            "cost_usd": a.cost_usd,
+            "payback_months": a.payback_months if a.payback_months is not None else 12,
+            "implementation_weeks": a.implementation_weeks if a.implementation_weeks is not None else 4,
+            "priority": a.priority or "medium",
+            "difficulty": a.difficulty or "medium",
+            "description": a.description or "",
+            "cost_effectiveness": ce,
+            "is_selected": a.is_selected,
+            "is_implemented": a.is_implemented,
+        })
+    return result
 
 
 @router.get("/history/{factory_id}")

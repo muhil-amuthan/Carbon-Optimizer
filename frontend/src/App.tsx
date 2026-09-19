@@ -13,7 +13,7 @@ export const App: React.FC = () => {
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#0a0e1a] text-slate-100 flex flex-col font-sans selection:bg-emerald-500 selection:text-slate-950">
+      <div className="min-h-screen bg-[#F7FAF8] text-[#1A2E24] flex flex-col font-sans selection:bg-[#EBF5F0] selection:text-[#168A5B]">
         {/* Top Navigation */}
         <Navbar
           currentFactory={currentFactory}
@@ -23,7 +23,7 @@ export const App: React.FC = () => {
         />
 
         {/* Main Content Area */}
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Routes>
             <Route path="/" element={<Dashboard factoryId={currentFactory} />} />
             <Route path="/data" element={<DataInput factoryId={currentFactory} />} />
@@ -34,14 +34,18 @@ export const App: React.FC = () => {
           </Routes>
         </main>
 
-        {/* Minimal Footer */}
-        <footer className="border-t border-slate-800/80 py-4 text-center text-xs text-slate-500 bg-[#0d1321]">
-          <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <span>CarbonWise Industrial ESG Intelligence • Powered by FastAPI & React</span>
-            <span className="flex items-center space-x-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-slate-400 font-mono">Telemetry Link: Connected (Port 8000)</span>
-            </span>
+        {/* Clean Environmental Footer */}
+        <footer className="border-t border-[#E3E9E5] py-4 text-xs text-[#768E82] bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+            <div className="flex items-center space-x-2">
+              <span className="font-medium text-[#1A2E24]">CarbonWise</span>
+              <span>•</span>
+              <span>Industrial Carbon Intelligence & Decarbonization Platform</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-[#168A5B]" />
+              <span className="text-[#486255]">Telemetry Feed Active</span>
+            </div>
           </div>
         </footer>
       </div>

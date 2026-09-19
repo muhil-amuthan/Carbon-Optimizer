@@ -3,6 +3,7 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -21,108 +22,122 @@ export const EmissionTrendChart: React.FC<EmissionTrendChartProps> = ({
   trendData,
   forecastData = [],
 }) => {
-  const [activeView, setActiveView] = useState<'stacked' | 'total'>('stacked');
+  const [activeView, setActiveView] = useState<'total' | 'stacked'>('total');
+
+  // Compute a baseline (e.g. rolling reference baseline 10% above average or first point)
+  const baseValue = trendData.length > 0 ? Math.round(trendData[0].total * 1.08) : 15000;
 
   const combinedData = [
     ...trendData.map((t) => ({
       date: t.date,
       total: t.total,
+      baseline: baseValue,
       scope1: t.scope1,
       scope2: t.scope2,
       scope3: t.scope3,
       forecast: null,
-      isForecast: false,
     })),
     ...forecastData.map((f) => ({
       date: f.date,
       total: null,
+      baseline: baseValue,
       scope1: null,
       scope2: null,
       scope3: null,
       forecast: f.predicted_emissions,
-      isForecast: true,
     })),
   ];
 
   return (
-    <div className="rounded-2xl bg-[#131b2e]/90 border border-slate-800 p-5 shadow-lg">
+    <div className="bg-white border border-[#E3E9E5] rounded-xl p-5 shadow-card">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
         <div>
-          <h3 className="text-sm font-semibold text-white">Emission Trajectory & Scope Breakdown</h3>
-          <p className="text-xs text-slate-400">Historical telemetry + AI 30-day forecast projection</p>
+          <h3 className="text-base font-semibold text-[#1A2E24]">Carbon Emission Trend</h3>
+          <p className="text-xs text-[#768E82]">Monthly emission performance vs industrial baseline</p>
         </div>
-        <div className="flex items-center space-x-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
-          <button
-            onClick={() => setActiveView('stacked')}
-            className={`px-3 py-1 rounded-lg transition-colors font-medium ${
-              activeView === 'stacked'
-                ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white'
-            }`}
-          >
-            Scope Stacks
-          </button>
+        <div className="flex items-center space-x-1 bg-[#F0F4F1] p-1 rounded-lg text-xs">
           <button
             onClick={() => setActiveView('total')}
-            className={`px-3 py-1 rounded-lg transition-colors font-medium ${
+            className={`px-3 py-1 rounded-md transition-colors font-medium ${
               activeView === 'total'
-                ? 'bg-emerald-500 text-slate-950 font-semibold shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-[#168A5B] font-semibold shadow-xs'
+                : 'text-[#486255] hover:text-[#1A2E24]'
             }`}
           >
-            Total & Trend
+            Actual vs Baseline
+          </button>
+          <button
+            onClick={() => setActiveView('stacked')}
+            className={`px-3 py-1 rounded-md transition-colors font-medium ${
+              activeView === 'stacked'
+                ? 'bg-white text-[#168A5B] font-semibold shadow-xs'
+                : 'text-[#486255] hover:text-[#1A2E24]'
+            }`}
+          >
+            Scope Breakdown
           </button>
         </div>
       </div>
 
       <div className="h-72 w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={combinedData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <AreaChart data={combinedData} margin={{ top: 10, right: 10, left: -15, bottom: 0 }}>
             <defs>
-              <linearGradient id="colorScope1" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.6} />
-                <stop offset="95%" stopColor="#f59e0b" stopOpacity={0} />
+              <linearGradient id="ecoTotal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#168A5B" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#168A5B" stopOpacity={0.01} />
               </linearGradient>
-              <linearGradient id="colorScope2" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.6} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+              <linearGradient id="ecoForecast" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#0D9488" stopOpacity={0.2} />
+                <stop offset="95%" stopColor="#0D9488" stopOpacity={0.01} />
               </linearGradient>
-              <linearGradient id="colorScope3" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.6} />
-                <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0} />
+              <linearGradient id="scope1Grad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#D97706" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#D97706" stopOpacity={0.01} />
               </linearGradient>
-              <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10b981" stopOpacity={0.7} />
-                <stop offset="95%" stopColor="#10b981" stopOpacity={0.05} />
+              <linearGradient id="scope2Grad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#2563EB" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#2563EB" stopOpacity={0.01} />
               </linearGradient>
-              <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#06b6d4" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="#06b6d4" stopOpacity={0.02} />
+              <linearGradient id="scope3Grad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="#7C3AED" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#7C3AED" stopOpacity={0.01} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" vertical={false} />
+            <CartesianGrid strokeDasharray="3 3" stroke="#EAEFEA" vertical={false} />
             <XAxis
               dataKey="date"
-              stroke="#64748b"
+              stroke="#768E82"
               fontSize={11}
+              tickLine={false}
+              axisLine={{ stroke: '#E3E9E5' }}
               tickFormatter={(v) => formatShortDate(v)}
             />
-            <YAxis stroke="#64748b" fontSize={11} tickFormatter={(v) => `${(v / 1000).toFixed(0)}t`} />
+            <YAxis
+              stroke="#768E82"
+              fontSize={11}
+              tickLine={false}
+              axisLine={{ stroke: '#E3E9E5' }}
+              tickFormatter={(v) => `${(v / 1000).toFixed(0)}t`}
+            />
             <Tooltip
               content={({ active, payload, label }) => {
                 if (active && payload && payload.length) {
                   return (
-                    <div className="rounded-xl bg-slate-900/95 border border-slate-700 p-3 shadow-2xl text-xs backdrop-blur-md">
-                      <p className="font-semibold text-slate-300 mb-1.5">{label}</p>
+                    <div className="rounded-lg bg-white border border-[#E3E9E5] p-3 shadow-lg text-xs">
+                      <p className="font-semibold text-[#1A2E24] mb-1.5">{label}</p>
                       {payload.map((entry: any, i: number) => {
                         if (entry.value === null || entry.value === undefined) return null;
                         return (
-                          <div key={i} className="flex items-center justify-between space-x-4 py-0.5">
-                            <span className="flex items-center space-x-1.5 text-slate-400">
-                              <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+                          <div key={i} className="flex items-center justify-between space-x-3 py-0.5">
+                            <span className="flex items-center space-x-1.5 text-[#486255]">
+                              <span
+                                className="w-2 h-2 rounded-full"
+                                style={{ backgroundColor: entry.color }}
+                              />
                               <span>{entry.name}:</span>
                             </span>
-                            <span className="font-mono font-medium text-white">
+                            <span className="font-mono font-medium text-[#1A2E24]">
                               {formatCO2(entry.value)}
                             </span>
                           </div>
@@ -134,56 +149,74 @@ export const EmissionTrendChart: React.FC<EmissionTrendChartProps> = ({
                 return null;
               }}
             />
-            <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+            <Legend
+              wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }}
+              iconType="circle"
+              iconSize={8}
+            />
 
-            {activeView === 'stacked' ? (
+            {activeView === 'total' ? (
+              <>
+                <Area
+                  type="monotone"
+                  dataKey="total"
+                  name="Actual Emissions"
+                  stroke="#168A5B"
+                  strokeWidth={2.5}
+                  fill="url(#ecoTotal)"
+                  activeDot={{ r: 5, fill: '#168A5B' }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="baseline"
+                  name="Baseline Target"
+                  stroke="#94A3B8"
+                  strokeWidth={1.5}
+                  strokeDasharray="4 4"
+                  dot={false}
+                />
+                {forecastData.length > 0 && (
+                  <Area
+                    type="monotone"
+                    dataKey="forecast"
+                    name="Projected Trend"
+                    stroke="#0D9488"
+                    strokeDasharray="4 4"
+                    strokeWidth={2}
+                    fill="url(#ecoForecast)"
+                  />
+                )}
+              </>
+            ) : (
               <>
                 <Area
                   type="monotone"
                   dataKey="scope2"
-                  name="Scope 2 (Power)"
+                  name="Scope 2 (Electricity)"
                   stackId="1"
-                  stroke="#3b82f6"
-                  fill="url(#colorScope2)"
+                  stroke="#2563EB"
+                  strokeWidth={1.5}
+                  fill="url(#scope2Grad)"
                 />
                 <Area
                   type="monotone"
                   dataKey="scope1"
-                  name="Scope 1 (Direct)"
+                  name="Scope 1 (Direct Fuel)"
                   stackId="1"
-                  stroke="#f59e0b"
-                  fill="url(#colorScope1)"
+                  stroke="#D97706"
+                  strokeWidth={1.5}
+                  fill="url(#scope1Grad)"
                 />
                 <Area
                   type="monotone"
                   dataKey="scope3"
-                  name="Scope 3 (Supply)"
+                  name="Scope 3 (Supply Chain)"
                   stackId="1"
-                  stroke="#8b5cf6"
-                  fill="url(#colorScope3)"
+                  stroke="#7C3AED"
+                  strokeWidth={1.5}
+                  fill="url(#scope3Grad)"
                 />
               </>
-            ) : (
-              <Area
-                type="monotone"
-                dataKey="total"
-                name="Historical Total"
-                stroke="#10b981"
-                strokeWidth={2}
-                fill="url(#colorTotal)"
-              />
-            )}
-
-            {forecastData.length > 0 && (
-              <Area
-                type="monotone"
-                dataKey="forecast"
-                name="AI Forecast (Projection)"
-                stroke="#06b6d4"
-                strokeDasharray="4 4"
-                strokeWidth={2}
-                fill="url(#colorForecast)"
-              />
             )}
           </AreaChart>
         </ResponsiveContainer>

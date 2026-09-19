@@ -1,5 +1,13 @@
 """Optimization history model - tracks optimization runs."""
 
+import os
+import sys
+
+# Ensure backend root is in sys.path when script is executed directly
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if _backend_dir not in sys.path:
+    sys.path.insert(0, _backend_dir)
+
 from sqlalchemy import Column, Integer, Float, String, DateTime, JSON
 from sqlalchemy.sql import func
 from app.database import Base
@@ -19,3 +27,7 @@ class OptimizationHistory(Base):
     optimization_method = Column(String(50), default="knapsack")
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+if __name__ == "__main__":
+    print(f"OptimizationHistory model loaded successfully: table='{OptimizationHistory.__tablename__}'")

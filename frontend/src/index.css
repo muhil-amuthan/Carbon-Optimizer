@@ -7,12 +7,14 @@
   html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: #F7FAF8;
+    color: #1A2E24;
   }
 
   body {
-    @apply bg-bg-base text-carbon-text font-sans;
-    background-color: #0a0f1a;
-    color: #f1f5f9;
+    background-color: #F7FAF8;
+    color: #1A2E24;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
 
   * {
@@ -24,95 +26,95 @@
     height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0d1321;
+    background: #F0F4F1;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1e293b;
+    background: #CBD7CE;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #334155;
+    background: #A4B8AB;
   }
 }
 
 @layer components {
   .card {
-    @apply bg-bg-card border border-carbon-border rounded-xl p-5 transition-all duration-200;
+    @apply bg-white border border-[#E3E9E5] rounded-xl p-5 shadow-card transition-all duration-200;
   }
 
   .card:hover {
-    @apply bg-bg-hover border-carbon-border;
+    @apply shadow-card-hover border-[#D1DCD5];
   }
 
   .kpi-card {
-    @apply card relative overflow-hidden cursor-default;
+    @apply card relative overflow-hidden;
   }
 
   .btn-primary {
-    @apply bg-brand-green hover:bg-green-400 text-bg-base font-semibold px-4 py-2 rounded-lg transition-all duration-200 text-sm;
+    @apply bg-brand-green hover:bg-brand-green-hover text-white font-medium px-4 py-2 rounded-lg transition-colors duration-150 text-sm shadow-sm inline-flex items-center justify-center gap-1.5;
+  }
+
+  .btn-secondary {
+    @apply bg-brand-green-light hover:bg-[#DDF0E6] text-brand-green font-medium px-4 py-2 rounded-lg transition-colors duration-150 text-sm inline-flex items-center justify-center gap-1.5;
   }
 
   .btn-ghost {
-    @apply border border-carbon-border hover:border-brand-green text-carbon-secondary hover:text-carbon-text px-4 py-2 rounded-lg transition-all duration-200 text-sm;
+    @apply border border-[#E3E9E5] hover:border-brand-green hover:bg-[#F7FAF8] text-carbon-secondary hover:text-carbon-text px-3 py-1.5 rounded-lg transition-colors duration-150 text-xs inline-flex items-center justify-center gap-1.5;
   }
 
   .status-pill {
-    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+    @apply inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-medium;
   }
 
   .input-field {
-    @apply bg-bg-secondary border border-carbon-border rounded-lg px-3 py-2 text-sm text-carbon-text placeholder-carbon-muted focus:outline-none focus:border-brand-green transition-colors w-full;
+    @apply bg-white border border-[#D5DDD8] rounded-lg px-3 py-2 text-sm text-carbon-text placeholder-carbon-muted focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green transition-colors w-full;
   }
 
   .select-field {
-    @apply bg-bg-secondary border border-carbon-border rounded-lg px-3 py-2 text-sm text-carbon-text focus:outline-none focus:border-brand-green transition-colors w-full cursor-pointer;
+    @apply bg-white border border-[#D5DDD8] rounded-lg px-3 py-2 text-sm text-carbon-text focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green transition-colors w-full cursor-pointer;
   }
 
   .section-title {
-    @apply text-base font-semibold text-carbon-text mb-4;
+    @apply text-base font-semibold text-carbon-text mb-1;
+  }
+
+  .section-subtitle {
+    @apply text-xs text-carbon-muted mb-4;
   }
 
   .label-xs {
-    @apply text-xs font-medium uppercase tracking-wider text-carbon-muted;
+    @apply text-[11px] font-semibold uppercase tracking-wider text-carbon-muted;
   }
 
   .value-mono {
-    @apply font-mono text-carbon-text;
+    @apply font-mono text-carbon-text font-semibold;
   }
 }
 
-/* Recharts custom dark theme */
+/* Recharts custom light theme */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
-  stroke: #1e293b;
+  stroke: #EAEFEA;
 }
 
 .recharts-tooltip-wrapper .recharts-default-tooltip {
-  background: #151d2e !important;
-  border: 1px solid #1e293b !important;
+  background: #FFFFFF !important;
+  border: 1px solid #E3E9E5 !important;
   border-radius: 8px !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
 }
 
 .recharts-legend-item-text {
-  color: #94a3b8 !important;
+  color: #486255 !important;
+  font-size: 11px !important;
 }
 
-/* Live pulse animation */
+/* Subtle live pulse animation */
 @keyframes live-pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.5; transform: scale(0.8); }
+  50% { opacity: 0.6; transform: scale(0.9); }
 }
 
 .live-dot {
   animation: live-pulse 2s ease-in-out infinite;
-}
-
-/* Number transition */
-@keyframes count-up {
-  from { opacity: 0; transform: translateY(4px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.count-animate {
-  animation: count-up 0.4s ease-out;
 }

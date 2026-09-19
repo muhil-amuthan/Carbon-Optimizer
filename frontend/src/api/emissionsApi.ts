@@ -48,11 +48,13 @@ export const emissionsApi = {
 
   getAnomalies: async (factoryId: string, sensitivity = 2.0): Promise<AnomalyResult[]> => {
     try {
-      const res = await apiClient.get<{ anomalies: AnomalyResult[] }>(
+      const res = await apiClient.get<any>(
         `/api/ai/anomalies/${factoryId}`,
         { params: { sensitivity } }
       );
-      return res.data.anomalies || mockAnomalies;
+      if (Array.isArray(res.data)) return res.data;
+      if (res.data && Array.isArray(res.data.anomalies)) return res.data.anomalies;
+      return mockAnomalies;
     } catch {
       return mockAnomalies;
     }
@@ -60,11 +62,13 @@ export const emissionsApi = {
 
   getForecast: async (factoryId: string, periods = 30): Promise<ForecastPoint[]> => {
     try {
-      const res = await apiClient.get<ForecastPoint[]>(
+      const res = await apiClient.get<any>(
         `/api/ai/forecast/${factoryId}`,
         { params: { periods } }
       );
-      return res.data || mockForecast;
+      if (Array.isArray(res.data)) return res.data;
+      if (res.data && Array.isArray(res.data.forecast)) return res.data.forecast;
+      return mockForecast;
     } catch {
       return mockForecast;
     }
@@ -84,7 +88,7 @@ export const emissionsApi = {
   },
 
   addManualEntry: async (data: any): Promise<any> => {
-    const res = await apiClient.post('/api/data/manual-entry', data);
+    const res = await apiClient.post('/api/data/manual', data);
     return res.data;
   },
 };

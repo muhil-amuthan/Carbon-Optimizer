@@ -56,6 +56,6 @@ export const PHASE_LABELS = {
   3: { label: 'LONG TERM', color: COLORS.blue, description: 'Strategic actions (1–3 years)' },
 } as const;
 
-export const API_BASE_URL = (import.meta as any).env?.VITE_API_URL || 'http://localhost:8000';
+export const API_BASE_URL = (import.meta as any).env?.VITE_API_URL || '';
 
 export const DEFAULT_FACTORY_ID = 'FACTORY_A';

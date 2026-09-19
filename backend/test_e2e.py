@@ -1,6 +1,13 @@
 import os
+import sys
 import requests
 import json
+
+if sys.stdout and hasattr(sys.stdout, "reconfigure"):
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
 BASE_URL = "http://localhost:8000"
 DATA_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "data"))

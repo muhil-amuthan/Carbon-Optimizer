@@ -1,5 +1,5 @@
 import React from 'react';
-import { Cloud, Flame, Zap, Truck, Gauge, TrendingDown, TrendingUp } from 'lucide-react';
+import { ArrowDownRight, ArrowUpRight } from 'lucide-react';
 import { formatCO2, formatNumber } from '../utils/formatters';
 
 interface EmissionCardsProps {
@@ -19,95 +19,87 @@ export const EmissionCards: React.FC<EmissionCardsProps> = ({
   intensity,
   totalChangePct = -6.4,
 }) => {
-  const cards = [
+  const metrics = [
     {
       label: 'Total Emissions',
       value: formatCO2(total),
-      sub: `${formatNumber(total)} kg CO₂e`,
-      icon: Cloud,
-      color: 'from-emerald-500/20 to-teal-500/5',
-      borderColor: 'border-emerald-500/30',
-      iconColor: 'text-emerald-400',
+      subtext: `${formatNumber(total)} kg CO₂e`,
       delta: totalChangePct,
-      deltaLabel: 'vs last month',
+      deltaLabel: 'from last month',
+      category: 'Overall Footprint',
     },
     {
-      label: 'Scope 1 (Direct)',
+      label: 'Scope 1',
       value: formatCO2(scope1),
-      sub: 'Fuel, gas & combustion',
-      icon: Flame,
-      color: 'from-amber-500/20 to-orange-500/5',
-      borderColor: 'border-amber-500/30',
-      iconColor: 'text-amber-400',
+      subtext: 'Direct combustion & process',
       delta: -3.2,
-      deltaLabel: 'reduced fuel burn',
+      deltaLabel: 'from last month',
+      category: 'Direct',
     },
     {
-      label: 'Scope 2 (Electricity)',
+      label: 'Scope 2',
       value: formatCO2(scope2),
-      sub: 'Purchased grid power',
-      icon: Zap,
-      color: 'from-blue-500/20 to-indigo-500/5',
-      borderColor: 'border-blue-500/30',
-      iconColor: 'text-blue-400',
+      subtext: 'Purchased electricity',
       delta: -8.7,
-      deltaLabel: 'solar offset active',
+      deltaLabel: 'from last month',
+      category: 'Purchased Power',
     },
     {
-      label: 'Scope 3 (Indirect)',
+      label: 'Scope 3',
       value: formatCO2(scope3),
-      sub: 'Supply chain & waste',
-      icon: Truck,
-      color: 'from-purple-500/20 to-pink-500/5',
-      borderColor: 'border-purple-500/30',
-      iconColor: 'text-purple-400',
+      subtext: 'Supply chain & waste',
       delta: -1.5,
-      deltaLabel: 'material routing',
+      deltaLabel: 'from last month',
+      category: 'Value Chain',
     },
     {
       label: 'Carbon Intensity',
       value: `${intensity.toFixed(2)}`,
-      sub: 'kg CO₂e per prod unit',
-      icon: Gauge,
-      color: 'from-cyan-500/20 to-sky-500/5',
-      borderColor: 'border-cyan-500/30',
-      iconColor: 'text-cyan-400',
+      subtext: 'kg CO₂e / production unit',
       delta: -5.1,
-      deltaLabel: 'efficiency gain',
+      deltaLabel: 'efficiency improvement',
+      category: 'Efficiency',
     },
   ];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      {cards.map((c, i) => {
-        const Icon = c.icon;
-        const isGood = c.delta < 0;
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3.5">
+      {metrics.map((m, i) => {
+        const isReduction = m.delta < 0;
         return (
           <div
             key={i}
-            className={`relative overflow-hidden rounded-2xl bg-[#131b2e]/90 border ${c.borderColor} p-4 shadow-lg backdrop-blur-sm transition-all hover:scale-[1.02] hover:shadow-xl`}
+            className="bg-white border border-[#E3E9E5] rounded-xl p-4 shadow-card hover:border-[#D0DBD3] transition-colors flex flex-col justify-between"
           >
-            <div className={`absolute -right-6 -top-6 w-24 h-24 rounded-full bg-gradient-to-br ${c.color} blur-2xl pointer-events-none`} />
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                {c.label}
-              </span>
-              <div className={`p-2 rounded-xl bg-slate-800/80 ${c.iconColor}`}>
-                <Icon className="h-4 w-4" />
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-[11px] font-semibold uppercase tracking-wider text-[#768E82]">
+                  {m.label}
+                </span>
+                <span className="text-[10px] px-1.5 py-0.5 rounded bg-[#F0F4F1] text-[#486255] font-medium">
+                  {m.category}
+                </span>
               </div>
+              <div className="text-2xl font-bold tracking-tight text-[#1A2E24] mt-0.5">
+                {m.value}
+              </div>
+              <p className="text-xs text-[#768E82] mt-0.5">{m.subtext}</p>
             </div>
 
-            <div className="space-y-1">
-              <div className="text-2xl font-bold tracking-tight text-white">{c.value}</div>
-              <p className="text-xs text-slate-400">{c.sub}</p>
-            </div>
-
-            <div className="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-xs">
-              <div className={`flex items-center space-x-1 font-medium ${isGood ? 'text-emerald-400' : 'text-rose-400'}`}>
-                {isGood ? <TrendingDown className="h-3.5 w-3.5" /> : <TrendingUp className="h-3.5 w-3.5" />}
-                <span>{Math.abs(c.delta)}%</span>
+            <div className="mt-3 pt-2.5 border-t border-[#F0F4F1] flex items-center justify-between text-xs">
+              <div
+                className={`inline-flex items-center space-x-1 font-medium ${
+                  isReduction ? 'text-[#168A5B]' : 'text-[#D97706]'
+                }`}
+              >
+                {isReduction ? (
+                  <ArrowDownRight className="h-3.5 w-3.5" />
+                ) : (
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                )}
+                <span>{Math.abs(m.delta)}%</span>
               </div>
-              <span className="text-[11px] text-slate-500">{c.deltaLabel}</span>
+              <span className="text-[11px] text-[#768E82] truncate ml-1">{m.deltaLabel}</span>
             </div>
           </div>
         );

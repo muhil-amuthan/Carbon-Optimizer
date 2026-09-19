@@ -82,14 +82,14 @@ export function getCIStatus(value: number): 'low' | 'medium' | 'high' {
 }
 
 export function getCIColor(status: 'low' | 'medium' | 'high'): string {
-  return { low: '#10b981', medium: '#f59e0b', high: '#ef4444' }[status];
+  return { low: '#168A5B', medium: '#D97706', high: '#DC2626' }[status];
 }
 
 export function getCIBgClass(status: 'low' | 'medium' | 'high'): string {
   return {
-    low: 'bg-brand-green/10 text-brand-green border-brand-green/20',
-    medium: 'bg-brand-amber/10 text-brand-amber border-brand-amber/20',
-    high: 'bg-brand-red/10 text-brand-red border-brand-red/20',
+    low: 'bg-[#EBF5F0] text-[#168A5B] border-[#D5E6DC]',
+    medium: 'bg-[#FEF3C7] text-[#D97706] border-[#FDE68A]',
+    high: 'bg-[#FEE2E2] text-[#DC2626] border-[#FCA5A5]',
   }[status];
 }
 

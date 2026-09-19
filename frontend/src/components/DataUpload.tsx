@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { UploadCloud, FileText, CheckCircle2, AlertCircle, PlusCircle } from 'lucide-react';
+import { UploadCloud, CheckCircle2, AlertCircle } from 'lucide-react';
 import { emissionsApi } from '../api/emissionsApi';
 
 interface DataUploadProps {
@@ -76,34 +76,34 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
   };
 
   return (
-    <div className="rounded-2xl bg-[#131b2e]/90 border border-slate-800 p-6 shadow-xl space-y-6">
+    <div className="bg-white border border-[#E3E9E5] rounded-xl p-5 shadow-card space-y-5">
       {/* Header & Tabs */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F0F4F1] pb-4">
         <div>
-          <h3 className="text-base font-semibold text-white flex items-center space-x-2">
-            <UploadCloud className="h-4 w-4 text-emerald-400" />
-            <span>Industrial Telemetry & Operational Data Input</span>
+          <h3 className="text-base font-semibold text-[#1A2E24] flex items-center space-x-2">
+            <UploadCloud className="h-4 w-4 text-[#168A5B]" />
+            <span>Industrial Activity Data Ingestion</span>
           </h3>
-          <p className="text-xs text-slate-400">Upload meter batch CSVs or insert daily manual logs</p>
+          <p className="text-xs text-[#768E82] mt-0.5">Upload meter batch CSVs or insert daily operational records</p>
         </div>
 
-        <div className="flex items-center space-x-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs">
+        <div className="flex items-center space-x-1 bg-[#F0F4F1] p-1 rounded-lg text-xs">
           <button
             onClick={() => setActiveTab('csv')}
-            className={`px-3 py-1 rounded-lg transition-colors font-medium ${
+            className={`px-3 py-1 rounded-md transition-colors font-medium ${
               activeTab === 'csv'
-                ? 'bg-emerald-500 text-slate-950 font-semibold'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-[#168A5B] font-semibold shadow-xs'
+                : 'text-[#486255] hover:text-[#1A2E24]'
             }`}
           >
             CSV Batch Upload
           </button>
           <button
             onClick={() => setActiveTab('manual')}
-            className={`px-3 py-1 rounded-lg transition-colors font-medium ${
+            className={`px-3 py-1 rounded-md transition-colors font-medium ${
               activeTab === 'manual'
-                ? 'bg-emerald-500 text-slate-950 font-semibold'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-white text-[#168A5B] font-semibold shadow-xs'
+                : 'text-[#486255] hover:text-[#1A2E24]'
             }`}
           >
             Manual Entry Form
@@ -113,16 +113,16 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
 
       {uploadMessage && (
         <div
-          className={`p-3 rounded-xl border flex items-center space-x-2 text-xs ${
+          className={`p-3 rounded-lg border flex items-center space-x-2 text-xs ${
             uploadMessage.type === 'success'
-              ? 'bg-emerald-950/30 border-emerald-500/40 text-emerald-300'
-              : 'bg-rose-950/30 border-rose-500/40 text-rose-300'
+              ? 'bg-[#EBF5F0] border-[#D5E6DC] text-[#168A5B]'
+              : 'bg-[#FEE2E2] border-[#FCA5A5] text-[#DC2626]'
           }`}
         >
           {uploadMessage.type === 'success' ? (
-            <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+            <CheckCircle2 className="h-4 w-4 text-[#168A5B]" />
           ) : (
-            <AlertCircle className="h-4 w-4 text-rose-400" />
+            <AlertCircle className="h-4 w-4 text-[#DC2626]" />
           )}
           <span>{uploadMessage.text}</span>
         </div>
@@ -133,15 +133,15 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
           <div
             onDragOver={(e) => e.preventDefault()}
             onDrop={handleFileDrop}
-            className="border-2 border-dashed border-slate-700 hover:border-emerald-500/60 rounded-2xl p-8 text-center transition-colors bg-slate-900/30 cursor-pointer"
+            className="border-2 border-dashed border-[#D5DDD8] hover:border-[#168A5B] rounded-xl p-8 text-center transition-colors bg-[#F7FAF8] cursor-pointer"
             onClick={() => document.getElementById('csvInput')?.click()}
           >
-            <UploadCloud className="h-10 w-10 text-emerald-400 mx-auto mb-2" />
-            <p className="text-sm font-semibold text-slate-200">
-              {file ? file.name : 'Click to browse or drag & drop CSV file here'}
+            <UploadCloud className="h-8 w-8 text-[#168A5B] mx-auto mb-2" />
+            <p className="text-sm font-semibold text-[#1A2E24]">
+              {file ? file.name : 'Click to select CSV file or drag and drop here'}
             </p>
-            <p className="text-xs text-slate-500 mt-1">
-              Required headers: <code className="text-slate-400">date, factory_id, electricity_kwh</code>
+            <p className="text-xs text-[#768E82] mt-1">
+              Required columns: <code className="text-[#486255] bg-white px-1 py-0.5 rounded border border-[#E3E9E5]">date, factory_id, electricity_kwh</code>
             </p>
             <input
               id="csvInput"
@@ -153,13 +153,13 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
           </div>
 
           <div className="flex justify-between items-center text-xs">
-            <span className="text-slate-500">Supported format: UTF-8 CSV up to 10MB</span>
+            <span className="text-[#768E82]">Standard UTF-8 CSV up to 10MB</span>
             <button
               onClick={handleCsvUpload}
               disabled={!file || isUploading}
-              className="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all disabled:opacity-40"
+              className="px-4 py-2 rounded-lg bg-[#168A5B] hover:bg-[#13784F] text-white font-medium text-xs shadow-xs transition-colors disabled:opacity-40"
             >
-              {isUploading ? 'Uploading...' : 'Process & Ingest Records'}
+              {isUploading ? 'Uploading...' : 'Process & Ingest File'}
             </button>
           </div>
         </div>
@@ -167,57 +167,57 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
         <form onSubmit={handleManualSubmit} className="space-y-4 text-xs">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Date</label>
+              <label className="block text-[#486255] font-medium mb-1">Date</label>
               <input
                 type="date"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Electricity (kWh)</label>
+              <label className="block text-[#486255] font-medium mb-1">Electricity (kWh)</label>
               <input
                 type="number"
                 value={formData.electricity_kwh}
                 onChange={(e) => setFormData({ ...formData, electricity_kwh: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Natural Gas (m³)</label>
+              <label className="block text-[#486255] font-medium mb-1">Natural Gas (m³)</label>
               <input
                 type="number"
                 value={formData.natural_gas_m3}
                 onChange={(e) => setFormData({ ...formData, natural_gas_m3: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Diesel (Liters)</label>
+              <label className="block text-[#486255] font-medium mb-1">Diesel (Liters)</label>
               <input
                 type="number"
                 value={formData.diesel_liters}
                 onChange={(e) => setFormData({ ...formData, diesel_liters: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Production (Units)</label>
+              <label className="block text-[#486255] font-medium mb-1">Production (Units)</label>
               <input
                 type="number"
                 value={formData.production_units}
                 onChange={(e) => setFormData({ ...formData, production_units: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
             <div>
-              <label className="block text-slate-300 font-medium mb-1">Waste Generated (kg)</label>
+              <label className="block text-[#486255] font-medium mb-1">Waste Generated (kg)</label>
               <input
                 type="number"
                 value={formData.waste_kg}
                 onChange={(e) => setFormData({ ...formData, waste_kg: Number(e.target.value) })}
-                className="w-full bg-slate-900 border border-slate-700 rounded-lg p-2 text-white"
+                className="w-full bg-white border border-[#D5DDD8] rounded-lg p-2 text-[#1A2E24] focus:outline-none focus:border-[#168A5B]"
               />
             </div>
           </div>
@@ -226,9 +226,9 @@ export const DataUpload: React.FC<DataUploadProps> = ({ factoryId, onUploadSucce
             <button
               type="submit"
               disabled={isUploading}
-              className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition-all"
+              className="px-4 py-2 rounded-lg bg-[#168A5B] hover:bg-[#13784F] text-white font-medium text-xs shadow-xs transition-colors"
             >
-              {isUploading ? 'Saving...' : 'Add Operational Record'}
+              {isUploading ? 'Saving...' : 'Add Operational Entry'}
             </button>
           </div>
         </form>

@@ -1,5 +1,13 @@
 """Reduction action model - stores available and selected actions."""
 
+import os
+import sys
+
+# Ensure backend root is in sys.path when script is executed directly
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if _backend_dir not in sys.path:
+    sys.path.insert(0, _backend_dir)
+
 from sqlalchemy import Column, Integer, Float, String, Boolean, DateTime
 from sqlalchemy.sql import func
 from app.database import Base
@@ -24,3 +32,7 @@ class ReductionAction(Base):
     is_implemented = Column(Boolean, default=False)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+if __name__ == "__main__":
+    print(f"ReductionAction model loaded successfully: table='{ReductionAction.__tablename__}'")

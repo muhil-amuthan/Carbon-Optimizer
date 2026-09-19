@@ -1,5 +1,13 @@
 """Emission results model - stores calculated emissions."""
 
+import os
+import sys
+
+# Ensure backend root is in sys.path when script is executed directly
+_backend_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+if _backend_dir not in sys.path:
+    sys.path.insert(0, _backend_dir)
+
 from sqlalchemy import Column, Integer, Float, String, Date, DateTime, ForeignKey
 from sqlalchemy.sql import func
 from app.database import Base
@@ -33,3 +41,7 @@ class EmissionResult(Base):
     emission_intensity = Column(Float, default=0.0)  # per production unit
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
+
+
+if __name__ == "__main__":
+    print(f"EmissionResult model loaded successfully: table='{EmissionResult.__tablename__}'")

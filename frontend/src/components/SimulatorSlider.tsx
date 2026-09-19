@@ -1,6 +1,5 @@
 import React from 'react';
-import { Sliders, Sun, Flame, Zap, Trash2, BatteryCharging } from 'lucide-react';
-import { formatCurrencyUSD, formatCO2 } from '../utils/formatters';
+import { Sliders, Sun, Flame, Zap, Trash2 } from 'lucide-react';
 
 interface SimulatorSliderProps {
   electricityPct: number;
@@ -29,8 +28,10 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
       desc: 'VFD motors, LED refits & HVAC setpoint tuning',
       icon: Zap,
       val: electricityPct,
-      color: 'accent-blue-500',
-      textColor: 'text-blue-400',
+      accent: 'accent-[#2563EB]',
+      textColor: 'text-[#2563EB]',
+      bgColor: 'bg-[#EFF6FF]',
+      borderColor: 'border-[#BFDBFE]',
       key: 'electricityPct',
       max: 50,
     },
@@ -40,8 +41,10 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
       desc: 'Biomass / electrification of boiler heating loads',
       icon: Flame,
       val: fuelPct,
-      color: 'accent-amber-500',
-      textColor: 'text-amber-400',
+      accent: 'accent-[#D97706]',
+      textColor: 'text-[#D97706]',
+      bgColor: 'bg-[#FEF3C7]',
+      borderColor: 'border-[#FDE68A]',
       key: 'fuelPct',
       max: 50,
     },
@@ -51,19 +54,23 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
       desc: 'Closed-loop reprocessing and material diversion',
       icon: Trash2,
       val: wastePct,
-      color: 'accent-purple-500',
-      textColor: 'text-purple-400',
+      accent: 'accent-[#7C3AED]',
+      textColor: 'text-[#7C3AED]',
+      bgColor: 'bg-[#F5F3FF]',
+      borderColor: 'border-[#DDD6FE]',
       key: 'wastePct',
       max: 40,
     },
     {
       id: 'renewable',
-      label: 'Rooftop Solar & PPA Renewable Share',
+      label: 'Rooftop Solar & Green Power Share',
       desc: 'On-site solar PV generation & green tariff purchase',
       icon: Sun,
       val: renewablePct,
-      color: 'accent-emerald-500',
-      textColor: 'text-emerald-400',
+      accent: 'accent-[#168A5B]',
+      textColor: 'text-[#168A5B]',
+      bgColor: 'bg-[#EBF5F0]',
+      borderColor: 'border-[#D5E6DC]',
       key: 'renewablePct',
       max: 100,
     },
@@ -83,41 +90,41 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
   };
 
   return (
-    <div className="rounded-2xl bg-[#131b2e]/90 border border-slate-800 p-6 shadow-xl space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+    <div className="bg-white border border-[#E3E9E5] rounded-xl p-5 shadow-card space-y-5">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F0F4F1] pb-3">
         <div>
-          <h3 className="text-base font-semibold text-white flex items-center space-x-2">
-            <Sliders className="h-4 w-4 text-emerald-400" />
-            <span>Interactive Parameter Sliders</span>
+          <h3 className="text-base font-semibold text-[#1A2E24] flex items-center space-x-2">
+            <Sliders className="h-4 w-4 text-[#168A5B]" />
+            <span>Operational Parameter Sliders</span>
           </h3>
-          <p className="text-xs text-slate-400">Simulate operational adjustments and see instantaneous emissions delta</p>
+          <p className="text-xs text-[#768E82]">Adjust decarbonization levers and observe real-time emissions impact</p>
         </div>
 
         {/* Quick Presets */}
         <div className="flex items-center space-x-1.5 text-xs">
-          <span className="text-slate-500 text-[11px]">Presets:</span>
+          <span className="text-[#768E82] text-[11px]">Presets:</span>
           <button
             onClick={() => applyPreset(10, 5, 10, 20)}
-            className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-colors"
+            className="px-2.5 py-1 rounded-md border border-[#E3E9E5] bg-[#F7FAF8] hover:bg-white text-[#486255] font-medium transition-colors"
           >
             Modest
           </button>
           <button
             onClick={() => applyPreset(25, 20, 20, 50)}
-            className="px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium transition-colors"
+            className="px-2.5 py-1 rounded-md border border-[#E3E9E5] bg-[#F7FAF8] hover:bg-white text-[#486255] font-medium transition-colors"
           >
             Moderate
           </button>
           <button
             onClick={() => applyPreset(45, 40, 35, 90)}
-            className="px-2 py-1 rounded bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 font-medium transition-colors"
+            className="px-2.5 py-1 rounded-md border border-[#D5E6DC] bg-[#EBF5F0] text-[#168A5B] font-semibold transition-colors"
           >
             Net-Zero 2030
           </button>
         </div>
       </div>
 
-      <div className="space-y-5">
+      <div className="space-y-4">
         {sliders.map((s) => {
           const Icon = s.icon;
           return (
@@ -126,11 +133,11 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
                 <div className="flex items-center space-x-2">
                   <Icon className={`h-4 w-4 ${s.textColor}`} />
                   <div>
-                    <span className="font-semibold text-slate-200">{s.label}</span>
-                    <span className="text-[11px] text-slate-500 ml-2 hidden sm:inline">{s.desc}</span>
+                    <span className="font-semibold text-[#1A2E24]">{s.label}</span>
+                    <span className="text-[11px] text-[#768E82] ml-2 hidden sm:inline">{s.desc}</span>
                   </div>
                 </div>
-                <span className={`font-mono font-bold text-sm px-2 py-0.5 rounded bg-slate-900 border border-slate-700 ${s.textColor}`}>
+                <span className={`font-mono font-bold text-xs px-2 py-0.5 rounded border ${s.bgColor} ${s.borderColor} ${s.textColor}`}>
                   +{s.val}%
                 </span>
               </div>
@@ -140,7 +147,7 @@ export const SimulatorSlider: React.FC<SimulatorSliderProps> = ({
                 max={s.max}
                 value={s.val}
                 onChange={(e) => handleSliderChange(s.key, Number(e.target.value))}
-                className={`w-full h-2 bg-slate-800 rounded-lg appearance-none cursor-pointer ${s.color}`}
+                className={`w-full h-2 bg-[#E3E9E5] rounded-lg appearance-none cursor-pointer ${s.accent}`}
               />
             </div>
           );
